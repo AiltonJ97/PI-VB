@@ -1,5 +1,5 @@
-import React from 'react';
-import { Platform } from 'react-native';
+import React, { useContext } from 'react';
+import { Alert, Platform } from 'react-native';
 import { 
     BackGround, 
     Container, 
@@ -11,12 +11,20 @@ import {
     Link, 
     LinkText } from './styles';
 
-    import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+import { AuthContext } from '../../contexts/auth';
+
+
 
 export default function SingIn(){
 
+    const { user } = useContext(AuthContext)
     const navigation = useNavigation();
-     
+    
+    function handleSingIn(){
+        console.log(user.nome)
+    }
+
     return(
         <BackGround>
             <Container
@@ -38,7 +46,7 @@ export default function SingIn(){
                         />
                 </AreaInput>    
 
-                <SubmitButton>
+                <SubmitButton onPress={handleSingIn}>
                     <SubmitText>Acessar</SubmitText>
                 </SubmitButton>
 
