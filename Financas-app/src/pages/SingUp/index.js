@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Platform, View } from "react-native";
+import { ActivityIndicator, Platform, View } from "react-native";
 import { AreaInput, BackGround, Container, Input,SubmitButton, SubmitText } from "../SingIn/styles";
 import { AuthContext } from "../../contexts/auth";
 
 
 export default function SingUp(){
-    const {singUp} = useContext(AuthContext);
+    const {singUp, loadingAuth} = useContext(AuthContext);
 
     function handleSingUp(){
+        if(nome === '' || email === '' || password === '') return;
         singUp(email, nome, password);
     }
     const [nome, setNome] = useState('');
@@ -24,7 +25,7 @@ export default function SingUp(){
                     <Input
                         placeholder="Nome"
                         value={nome}
-                        onChangeText={setNome}
+                        onChangeText={(text) => setNome(text)}
                     />
                 </AreaInput>
                 
@@ -32,7 +33,7 @@ export default function SingUp(){
                     <Input
                         placeholder="Email"
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </AreaInput>
                 
@@ -40,13 +41,19 @@ export default function SingUp(){
                     <Input
                         placeholder="Senha"
                         value={password}
-                        onChangeText={setPassword}
+                        onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
                     />
                 </AreaInput>
 
                 <SubmitButton onPress={handleSingUp}>
-                    <SubmitText>Cadastrar</SubmitText>
+                    {
+                        loadingAuth ? (
+                            <ActivityIndicator size={20} color="#FFF"/>
+                        ) : (
+                            <SubmitText>Cadastrar</SubmitText>
+                        )
+                    }
                 </SubmitButton>
             </Container>
         </BackGround>
