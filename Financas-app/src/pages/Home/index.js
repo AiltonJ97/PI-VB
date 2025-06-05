@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BackGround, ListBalance } from './styles';
-
-import { AuthContext } from '../../contexts/auth';
-import Header from "../../components/Headers";
-
-import api from "../../services/api";
+import React, { useEffect, useState } from "react";
+import { BackGround, ListBalance, Title, Area, List } from './styles';
+import Icon from "@react-native-vector-icons/evil-icons";
+import { TouchableOpacity } from "react-native";
 import { format } from 'date-fns';
-
+import api from "../../services/api";
 import { useIsFocused } from "@react-navigation/native";
+
 import BalanceItem from "../../components/BalanceItem";
+import Header from "../../components/Headers";
+import HitoricoList from "../../components/HistoricoList";
+
 
 export default function Home(){
     const isFocused = useIsFocused();
@@ -45,6 +46,21 @@ export default function Home(){
                 keyExtractor={item => item.tag}
                 renderItem={ ({item}) => (<BalanceItem data={item}/>)}
             />
+
+            <Area>
+                <TouchableOpacity>
+                <Icon name="calendar" size={40} color='#121212'/>
+                </TouchableOpacity>
+                <Title>Ultimas Movimentações</Title>
+            </Area>
+
+            <List
+                data={[]}
+                keyExtractor={item => item.id}
+                renderItem={( {item} ) => <HitoricoList/>}
+                showsVerticalScrollIndicator={false}
+            />
+
         </BackGround>
     )
 }
