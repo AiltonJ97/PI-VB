@@ -10,6 +10,7 @@ export const ListBalance = styled.FlatList`
     maxHeight: 190px;
 `;
 export const Area = styled.View`
+    marginTop: 24px;
     backgroundColor: #FFF;
     borderTopLeftRadius: 15px;
     borderTopRightRadius: 15px;

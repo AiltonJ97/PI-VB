@@ -14,6 +14,8 @@ import HitoricoList from "../../components/HistoricoList";
 export default function Home(){
     const isFocused = useIsFocused();
     const [listBalance, setListBalance] = useState([]);
+    const [moviments, setMoviments] = useState(['']);
+
     const [dateMoviment, setDateMoviment] = useState(new Date());
 
     useEffect(() => {
@@ -22,12 +24,19 @@ export default function Home(){
         async function getMoviments(params) {
             let dateFormated = format(dateMoviment, 'dd/MM/yyyy');
 
+            const receives = await api.get('/receives', {
+                params: {
+                    date: dateFormated
+                }
+            })
+
             const balence = await api.get('/balance', {
                 params: {
                     date: dateFormated
                 }
             })
             if (isActive){
+                setMoviments(receives.data);
                 setListBalance(balence.data);
             }
         }
@@ -55,10 +64,11 @@ export default function Home(){
             </Area>
 
             <List
-                data={[]}
+                data={moviments}
                 keyExtractor={item => item.id}
-                renderItem={( {item} ) => <HitoricoList/>}
+                renderItem={( {item} ) => <HitoricoList data={item}/>}
                 showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: 20}}
             />
 
         </BackGround>
