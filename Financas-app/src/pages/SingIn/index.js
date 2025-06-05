@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Alert, Platform } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { ActivityIndicator, Alert, Platform } from 'react-native';
 import { 
     BackGround, 
     Container, 
@@ -14,15 +14,14 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../contexts/auth';
 
-
-
 export default function SingIn(){
-
-    const { user } = useContext(AuthContext)
+    const {singIn, loadingAuth} = useContext(AuthContext);
     const navigation = useNavigation();
-    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     function handleSingIn(){
-        console.log(user.nome)
+        singIn(email, password);
     }
 
     return(
@@ -38,16 +37,27 @@ export default function SingIn(){
                 <AreaInput>
                     <Input
                         placeholder="Email"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </AreaInput>
                 <AreaInput>
                     <Input
                         placeholder="Senha"
-                        />
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        secureTextEntry={true}
+                    />
                 </AreaInput>    
 
-                <SubmitButton onPress={handleSingIn}>
-                    <SubmitText>Acessar</SubmitText>
+                <SubmitButton activeOpacity={0.8} onPress={handleSingIn}>
+                    {
+                        loadingAuth ? (
+                            <ActivityIndicator size={20} color='#FFF'/>
+                        ) : (
+                            <SubmitText>Acessar</SubmitText>
+                        )
+                    }
                 </SubmitButton>
 
                 <Link onPress={()=> navigation.navigate('SingUp')}>
